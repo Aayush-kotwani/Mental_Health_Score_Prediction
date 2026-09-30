@@ -5,7 +5,7 @@
    ===================================================================== */
 const CONFIG = {
   BRAND: "MindPath",
-  API_BASE_URL: "http://127.0.0.1:8000",
+  API_BASE_URL: "https://mental-health-score-prediction-u5t3.onrender.com",
   PREDICT_ENDPOINT: "/predict",
   SCORE_MAX: 10,          // Scale used to draw the ring. Backend returns a bare float, so set this to your model's scale.
   SCORE_DECIMALS: 2,
