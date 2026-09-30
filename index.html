@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MindPath — Mental Health Assessment</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Fraunces:opsz,wght@9..144,400;9..144,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="nav">
+    <a class="brand" href="#top" data-brand>MindPath</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle menu"><span></span><span></span></button>
+    <nav id="nav-links" class="nav-links" aria-label="Primary">
+      <a href="#assessment">Assessment</a>
+      <a href="#about">About</a>
+      <a href="#information">Information</a>
+      <a class="btn btn-small" href="#assessment">Begin Assessment</a>
+    </nav>
+  </header>
+
+  <main id="top">
+    <section class="hero section">
+      <div class="wrap hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">Mental Health Assessment</p>
+          <h1>Understand your mental<br>wellbeing, one step at a time.</h1>
+          <p class="lede">A private, data-driven assessment designed to help you understand patterns in your responses.</p>
+          <a class="btn" href="#assessment">Begin Assessment</a>
+          <p class="fine">Your responses are processed through the assessment model.</p>
+        </div>
+        <div class="hero-art" aria-hidden="true">
+          <div class="blob"></div>
+          <svg viewBox="0 0 400 480" fill="none">
+            <path d="M50 30 C 330 70, 40 190, 250 270 S 130 430, 350 460" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 9" stroke-linecap="round"/>
+            <g fill="var(--surface)" stroke="currentColor" stroke-width="1.5">
+              <circle cx="50" cy="30" r="7"/><circle cx="196" cy="150" r="7"/><circle cx="250" cy="270" r="7"/><circle cx="350" cy="460" r="7"/>
+            </g>
+            <g font-family="DM Sans, sans-serif" font-size="12" fill="currentColor" letter-spacing="1.5">
+              <text x="68" y="34">INTRODUCTION</text><text x="212" y="154">ASSESSMENT</text><text x="268" y="274">ANALYSIS</text><text x="262" y="464">RESULT</text>
+            </g>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <section id="assessment" class="section section-plain">
+      <div class="wrap narrow">
+        <header class="section-head">
+          <p class="eyebrow">Step 01</p>
+          <h2>A few questions about you.</h2>
+          <p class="lede">Answer each question as accurately as you can. There are no right or wrong answers.</p>
+        </header>
+
+        <div class="progress" aria-live="polite">
+          <p><strong><span id="progress-count">00</span> / <span id="progress-total">00</span></strong> <span>Assessment progress</span></p>
+          <div class="bar" role="progressbar" aria-label="Assessment progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i id="progress-fill"></i></div>
+        </div>
+
+        <form id="assessment-form" novalidate>
+          <div id="form-fields"></div>
+          <div id="form-alert" class="alert" role="alert" hidden></div>
+          <button type="submit" id="submit-btn" class="btn btn-large">Analyze My Responses</button>
+        </form>
+      </div>
+    </section>
+
+    <section id="analysis" class="section section-blue" hidden aria-live="polite">
+      <div class="wrap narrow center">
+        <p class="eyebrow">Step 02</p>
+        <h2>Reviewing your responses…</h2>
+        <div class="dots" aria-hidden="true"><i></i><i></i><i></i></div>
+      </div>
+    </section>
+
+    <section id="result" class="section section-peach" hidden tabindex="-1">
+      <div class="wrap narrow center">
+        <p class="eyebrow">Step 03</p>
+        <h2>Your assessment result</h2>
+        <p class="lede">Based on the information provided, your assessment indicates:</p>
+
+        <div class="ring" role="img" aria-label="Assessment score visualization">
+          <svg viewBox="0 0 220 220" aria-hidden="true">
+            <circle class="ring-track" cx="110" cy="110" r="90"/>
+            <circle class="ring-fill" id="ring-progress" cx="110" cy="110" r="90"/>
+          </svg>
+          <div class="ring-text">
+            <span id="score-value" class="score">0.00</span>
+            <span class="score-max">/ <span id="score-max">10</span></span>
+          </div>
+        </div>
+        <p class="eyebrow">Assessment score</p>
+
+        <dl class="details">
+          <div><dt>Model output</dt><dd>Predicted mental health score</dd></div>
+          <div><dt>Score</dt><dd id="detail-score">—</dd></div>
+          <div><dt>Responses reviewed</dt><dd id="detail-count">—</dd></div>
+        </dl>
+
+        <article class="meaning">
+          <h3>What this result means</h3>
+          <p id="meaning-text"></p>
+          <p class="fine">This tool is intended for informational and educational purposes and is not a medical diagnosis.</p>
+        </article>
+
+        <button type="button" id="retake-btn" class="btn btn-ghost">Retake Assessment</button>
+      </div>
+    </section>
+
+    <section id="about" class="section section-sage">
+      <div class="wrap narrow">
+        <p class="eyebrow">About</p>
+        <h2>A gentle, structured look at your habits.</h2>
+        <p>The assessment asks about your daily routine, social media use and stress. A trained statistical model compares your answers with patterns found in survey data and returns a single score.</p>
+      </div>
+    </section>
+
+    <section id="information" class="section section-plain">
+      <div class="wrap narrow">
+        <p class="eyebrow">Information</p>
+        <h2>Please read before you begin.</h2>
+        <p>Results describe what a model predicts from the answers you give. They cannot account for your personal history or circumstances. If you are worried about your wellbeing, please speak with a qualified health professional or someone you trust.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap">
+      <p><strong data-brand>MindPath</strong> — informational and educational use only. Not a medical diagnosis.</p>
+      <p class="fine">Your answers are sent only to the assessment service and are not stored in your browser.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
