@@ -180,3 +180,35 @@ input:focus-visible, select:focus-visible { outline: none; border-color: var(--p
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
 }
+
+/* ---------- Random forest visualization ---------- */
+.forest { margin: 2.5rem 0; padding-top: 2rem; border-top: 1px solid var(--border); text-align: left; }
+.forest h3 { margin-bottom: .6rem; }
+.stage { display: flex; align-items: center; gap: .7rem; margin: 2rem 0 .9rem; font: 500 1.05rem var(--sans); }
+.stage span { display: grid; place-items: center; width: 28px; height: 28px; border: 1px solid var(--primary); border-radius: 50%; color: var(--primary); font-size: .85rem; }
+.chips, .trees { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.chips { grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); }
+.chip { display: flex; justify-content: space-between; gap: .5rem; padding: .5rem .8rem; background: var(--surface); border: 1px solid var(--border); border-radius: 10px; font-size: .88rem; opacity: .25; transform: translateY(6px); transition: opacity .4s, transform .4s, border-color .4s; }
+.chip span { color: var(--text-muted); }
+.chip.on { opacity: 1; transform: none; border-color: var(--accent); }
+.trees { grid-template-columns: repeat(auto-fill, minmax(62px, 1fr)); }
+.tree { display: flex; flex-direction: column; align-items: center; padding: .4rem 0; font-size: .72rem; color: var(--text-muted); opacity: .2; transition: opacity .35s; }
+.tree svg { width: 26px; height: 30px; color: color-mix(in srgb, var(--primary) calc(var(--t) * 100%), var(--accent)); transform: scale(.7); transition: transform .35s; }
+.tree.on { opacity: 1; }
+.tree.on svg { transform: none; }
+.hist { width: 100%; max-width: 480px; display: block; }
+.hist .bar-h { fill: var(--accent); transform-box: fill-box; transform-origin: bottom; transform: scaleY(0); transition: transform .8s ease; }
+.forest.played .bar-h { transform: scaleY(1); }
+.hist .mean-line { stroke: var(--primary); stroke-width: 2; stroke-dasharray: 4 3; opacity: 0; transition: opacity .6s .6s; }
+.forest.played .mean-line { opacity: 1; }
+.hist .axis { stroke: var(--border); }
+.hist text { font: 10px var(--sans); fill: var(--text-muted); }
+.mean { margin: .6rem 0 .2rem; color: var(--text-muted); }
+.mean strong { font: 400 2rem var(--serif); color: var(--text); margin-left: .4rem; font-variant-numeric: tabular-nums; }
+@media (prefers-reduced-motion: reduce) {
+  .chip, .tree, .tree svg, .hist .bar-h, .hist .mean-line { transition: none; }
+}
+
+/* GitHub link in header */
+.nav-links .gh-link { display: inline-flex; align-items: center; gap: .45rem; }
+.nav-links .gh-link svg { width: 18px; height: 18px; flex: none; }

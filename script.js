@@ -184,6 +184,7 @@ async function submitAssessment(e) {
     const result = normalizePredictionResponse(await res.json());
     showLoading(false);
     renderPrediction(result, payload);
+    window.renderForest?.(payload); // optional: needs /explain endpoint
   } catch (err) {
     console.error("[Assessment] request failed:", err, err.body || "");
     showLoading(false);
@@ -272,6 +273,7 @@ function animateScore(r) {
 
 function resetAssessment() {
   cancelAnimationFrame(state.raf);
+  window.resetForest?.();
   $("#assessment-form").reset();
   FIELDS.forEach((f) => setFieldError(f, ""));
   hideAlert();
