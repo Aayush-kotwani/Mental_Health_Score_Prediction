@@ -2,8 +2,9 @@
 
 A full-stack machine learning application that predicts a student's **mental health score** from their social media habits, lifestyle and stress level. A trained scikit-learn pipeline is served through a **FastAPI** backend and consumed by a calm, editorial-style **HTML/CSS/vanilla JavaScript** frontend. The backend is deployed on **Render**.
 
-> **Live demo:** [Mind-path](https://mental-health-score-prediction-frontend-wgpv.onrender.com)
+> **Live demo:** [https://mental-health-score-prediction-frontend-wgpv.onrender.com](https://mental-health-score-prediction-u5t3.onrender.com)
 > **API docs (Swagger):** `https://mental-health-score-prediction-u5t3.onrender.com/docs`
+> **Status:** Deployed on Render ✅ (free tier — the first request after inactivity may take 30–60 seconds while the service wakes up)
 
 > ⚠️ **Disclaimer:** This project is for informational and educational purposes only. It is **not** a medical device and does not provide a diagnosis. If you are concerned about your wellbeing, please speak to a qualified health professional.
 
@@ -37,6 +38,7 @@ The workflow end to end:
 User fills form  →  Frontend validates  →  POST /predict (JSON)
       →  FastAPI + Pydantic validation  →  Feature engineering
       →  Trained ML pipeline (.pkl)  →  Score (float)  →  Animated result
+                                    ↘  POST /explain  →  Per-tree votes  →  Forest visualization
 ```
 
 ## Features
@@ -44,6 +46,7 @@ User fills form  →  Frontend validates  →  POST /predict (JSON)
 - **Regression model** serialized with `joblib` and loaded once at server start-up.
 - **FastAPI backend** with strict request validation (Pydantic) and a typed response model.
 - **Interactive API docs** auto-generated at `/docs` and `/redoc`.
+- **Random forest visualization:** an animated "under the hood" view shows your answers going in, every tree casting its own vote, and the votes being averaged into the final score. It uses the real per-tree predictions from the trained model.
 - **Polished frontend** with no frameworks: semantic HTML, accessible form controls, inline validation, loading state and an animated circular score.
 - **Responsive and accessible:** keyboard friendly, `aria-invalid` / `aria-describedby`, reduced-motion support.
 - **Privacy-minded:** no analytics, no tracking, and answers are never stored in the browser.
@@ -69,6 +72,7 @@ Mental_Health_Score_Prediction/
 ├── index.html                # Frontend markup
 ├── style.css                 # Frontend styling
 ├── script.js                 # Validation, API calls, result rendering
+├── forest.js                 # Random forest visualization
 ├── requirements.txt          # Python dependencies
 └── README.md
 ```
@@ -155,6 +159,7 @@ joblib.dump(pipeline, "Mental_Health_Model.pkl")
 |---|---|---|
 | `GET` | `/` | Health / welcome message |
 | `POST` | `/predict` | Returns the predicted mental health score |
+| `POST` | `/explain` | Returns every tree's individual prediction (powers the forest visualization) |
 | `GET` | `/docs` | Swagger UI |
 
 ### Request body — `POST /predict`
@@ -203,6 +208,20 @@ curl -X POST "http://127.0.0.1:8000/predict" \
 
 The score is rounded to two decimals.
 
+### `POST /explain`
+
+Takes the **same request body** as `/predict` and returns one prediction per tree in the random forest:
+
+```json
+{
+  "n_trees": 100,
+  "tree_predictions": [6.5, 7.1, 6.9, 6.4, "…"],
+  "mean": 6.78
+}
+```
+
+`mean` is the average of all tree votes and matches the `/predict` score. The endpoint works whether the saved model is a scikit-learn `Pipeline` ending in a forest or a bare forest, and returns `400` if the model is not a tree ensemble.
+
 ### Error responses
 
 | Status | Meaning |
@@ -221,13 +240,15 @@ The UI is plain HTML, CSS and JavaScript, designed as a calm, editorial wellness
 - **Client-side validation** matching Pydantic constraints, with inline messages (no `alert()` dialogs).
 - **Progress indicator** that updates as questions are answered.
 - **Animated SVG score ring** that fills from 0 to the returned score.
+- **Random forest visualization** (`forest.js`) in three stages: your inputs, a vote from each tree (shaded by value), and a histogram of all votes with the average marked. It replays on demand and respects reduced-motion settings. If `/explain` is unavailable, a short note is shown and the main result is unaffected.
+- **Header link** to this GitHub repository.
 - **Friendly error handling** for network failures, validation errors (422) and server errors (5xx).
 - **Configuration in one place** — edit the `CONFIG` object at the top of `script.js`:
 
 ```js
 const CONFIG = {
   BRAND: "MindPath",
-  API_BASE_URL: "http://127.0.0.1:8000",   // ← change to your Render URL in production
+  API_BASE_URL: "http://127.0.0.1:8000",   // ← use your Render URL for the deployed version
   PREDICT_ENDPOINT: "/predict",
   SCORE_MAX: 10,                            // ← set to your model's score scale
   SCORE_DECIMALS: 2,
@@ -261,9 +282,9 @@ Then open `index.html` in your browser (or use the VS Code *Live Server* extensi
 
 ## Deployment on Render
 
-The FastAPI backend is deployed as a **Web Service** on [Render](https://render.com).
+The FastAPI backend is deployed as a **Web Service** on [Render](https://render.com) and is live at the link at the top of this README.
 
-### Steps
+### Steps to reproduce the deployment
 
 1. Push the repository to GitHub.
 2. In Render, choose **New → Web Service** and connect the repository.
@@ -277,7 +298,7 @@ The FastAPI backend is deployed as a **Web Service** on [Render](https://render.
    | Branch | `main` |
 
 4. (Recommended) Add an environment variable `PYTHON_VERSION` matching your local version, and pin `scikit-learn`, `pandas`, `numpy` and `joblib` in `requirements.txt` to the versions used for training. Mismatched versions are the most common cause of model-loading errors.
-5. Click **Create Web Service**. Render builds the project and gives you a public URL.
+5. Click **Create Web Service**. Render builds the project and gives you a public URL. Visit `/docs` on that URL to confirm `/predict` and `/explain` work.
 6. Open `script.js` and set `API_BASE_URL` to that URL:
 
    ```js
@@ -302,6 +323,7 @@ The FastAPI backend is deployed as a **Web Service** on [Render](https://render.
 ## Future Improvements
 
 - Show per-feature explanations (e.g. SHAP) alongside the score.
+- Extend the forest view with a single-tree walkthrough showing the actual splits an input follows.
 - Add automated tests for the API and a CI workflow.
 - Containerise with Docker.
 - Restrict CORS and add rate limiting for production.
