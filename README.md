@@ -2,7 +2,7 @@
 
 A full-stack machine learning application that predicts a student's **mental health score** from their social media habits, lifestyle and stress level. A trained scikit-learn pipeline is served through a **FastAPI** backend and consumed by a calm, editorial-style **HTML/CSS/vanilla JavaScript** frontend. The backend is deployed on **Render**.
 
-> **Live demo:** [PASTE YOUR RENDER LINK HERE](https://mental-health-score-prediction-frontend-wgpv.onrender.com)
+> **Live demo:** [Mind-path](https://mental-health-score-prediction-frontend-wgpv.onrender.com)
 > **API docs (Swagger):** `https://mental-health-score-prediction-u5t3.onrender.com/docs`
 
 > ⚠️ **Disclaimer:** This project is for informational and educational purposes only. It is **not** a medical device and does not provide a diagnosis. If you are concerned about your wellbeing, please speak to a qualified health professional.
