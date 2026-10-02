@@ -2,7 +2,7 @@
 
 A full-stack machine learning application that predicts a student's **mental health score** from their social media habits, lifestyle and stress level. A trained scikit-learn pipeline is served through a **FastAPI** backend and consumed by a calm, editorial-style **HTML/CSS/vanilla JavaScript** frontend. The backend is deployed on **Render**.
 
-> **Live demo:** [https://mental-health-score-prediction-frontend-wgpv.onrender.com](https://mental-health-score-prediction-u5t3.onrender.com)
+> **Live demo:** [MindPath](https://mental-health-score-prediction-frontend-wgpv.onrender.com)
 > **API docs (Swagger):** `https://mental-health-score-prediction-u5t3.onrender.com/docs`
 > **Status:** Deployed on Render ✅ (free tier — the first request after inactivity may take 30–60 seconds while the service wakes up)
 
